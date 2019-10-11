@@ -26,6 +26,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     // Sully Was here
+    // Darrian was not here
+
 
     /**
      * Manipulates the map once available.
