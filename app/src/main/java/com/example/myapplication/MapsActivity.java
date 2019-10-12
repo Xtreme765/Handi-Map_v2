@@ -26,6 +26,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     // Sully Was here
+    // Virginia is for lovers
 
     /**
      * Manipulates the map once available.
