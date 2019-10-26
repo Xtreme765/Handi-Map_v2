@@ -2,10 +2,6 @@ package com.example.myapplication;
 
 import androidx.fragment.app.FragmentActivity;
 
-import android.view.View;
-import android.widget.Button;
-
-
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,31 +19,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-        SupportMapFragment mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFrag.getMapAsync(this);
-
-        // OLD CODE
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        // SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-        //        .findFragmentById(R.id.map);
-        // mapFragment.getMapAsync(this);
-        // final android.widget.Button button = (android.widget.Button) findViewById(R.id.buttonMaps);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
     // Sully Was here
     // Virginia is for lovers
     // Darrian was not here
-
-    /**
-     * Manipulates the button once available.
-     */
-    public void buttonOnClick(View v) {
-        // do something when the button is clicked
-        Button button = (Button) v;
-        ((Button) v).setText("settings page");
-    }
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -67,4 +47,3 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(rpi_union));
     }
 }
-
