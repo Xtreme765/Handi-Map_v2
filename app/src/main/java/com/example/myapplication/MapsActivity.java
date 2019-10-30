@@ -3,9 +3,11 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -44,6 +46,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         nodeMap = new NodeMap();
         edgeMap = new EdgeMap();
+    }
+
+    /** Called when the user taps the Settings button */
+    public void settingsMessage(View view) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     // Sully Was here
