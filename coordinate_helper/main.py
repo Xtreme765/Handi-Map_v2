@@ -38,11 +38,18 @@ csvData = [["ID", "LATITUDE", "LONGITUDE", "DESCRIPTION", "ISSTAIRS", "ISRAMP", 
 for i in range(0, len(c_list), 2):
     edges = ""
     if i != 0:
-        edges += "(" + geohash.encode(float(c_list[i-2]), float(c_list[i-1])) + ") "
+        edges += geohash.encode(float(c_list[i-2]), float(c_list[i-1])) + ";"
     if i != len(c_list)-2:
-        edges += "(" + geohash.encode(float(c_list[i+2]), float(c_list[i+3])) + ") "
+        edges += geohash.encode(float(c_list[i+2]), float(c_list[i+3])) + ";"
     hash_id = geohash.encode(float(c_list[i]), float(c_list[i + 1]))
-    csvData.append([hash_id, c_list[i], c_list[i + 1], des, isStairs, isRamp, edges])
+    found = False
+    for row in csvData:
+        if row[0] == hash_id:
+            row[6] += edges
+            found = True
+            break
+    if not found:
+        csvData.append([hash_id, c_list[i], c_list[i + 1], des, isStairs, isRamp, edges])
 
 f_csv = f_name + ".csv"
 with open(f_csv, "w", newline="") as csvFile:
