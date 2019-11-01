@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import java.util.Hashtable;
+import java.util.Iterator;
 
 public class NodeMap {
 
@@ -23,6 +24,17 @@ public class NodeMap {
         }
         System.out.println("Invalid Node requested with id " + id);
         return null;
+
+    }
+
+
+    public void resetDijkstra() {
+
+
+        Iterator nodeIterator = map.entrySet().iterator();
+        while(nodeIterator.hasNext()) {
+          //  map.
+        }
 
     }
 

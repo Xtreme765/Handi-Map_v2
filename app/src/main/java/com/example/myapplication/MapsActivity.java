@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import android.graphics.Color;
@@ -13,7 +12,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.BufferedReader;
@@ -36,6 +34,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -44,6 +43,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         nodeMap = new NodeMap();
         edgeMap = new EdgeMap();
+
+
+
     }
 
     // Sully Was here
@@ -67,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng rpi_union = new LatLng(42.730192, -73.676731);
         mMap.addMarker(new MarkerOptions().position(rpi_union).title("Marker in Troy"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(rpi_union));
-        mMap.setMinZoomPreference(17);
+        mMap.setMinZoomPreference(16);
 
         // Reads through the database and creates all nodes
         createNodes();
@@ -78,6 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Draws all edges present in the database
         // Might not be included in the final version but serves to visualize the database
         drawAllEdges();
+
     }
 
 
@@ -97,7 +100,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String[] tokens = line.split(",");
 
                 // Output the data (not needed in final project)
-                Log.d("MainActivity" ,"Point: " + tokens[0] + ", longitude: " + tokens[1] + ", latitude: "  + tokens[2]);
+                Log.d("MainActivity" ,"Point: " + tokens[0] + ", longitude: " + tokens[2] + ", latitude: "  + tokens[1]);
 
                 // Create the Point from the id and coordinates
                 Point newPoint = new Point(tokens[0], Float.parseFloat(tokens[1]), Float.parseFloat(tokens[2]));

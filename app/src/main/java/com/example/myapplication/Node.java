@@ -9,6 +9,7 @@ public class Node {
     private boolean isStairs;
     private boolean isRamp;
     private ArrayList<Edge> edges;
+    private double score;
 
 
 
@@ -59,6 +60,10 @@ public class Node {
 
     public ArrayList<Edge> getEdges() {
         return new ArrayList<>(edges);
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 
 }
