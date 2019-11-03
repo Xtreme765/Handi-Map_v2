@@ -7,6 +7,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,7 +28,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
 
     private GoogleMap mMap;
 
@@ -36,6 +39,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        Spinner locationSpinner = findViewById(R.id.locationSpinner);
+        locationSpinner.setOnItemSelectedListener(this);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -46,8 +51,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         nodeMap = new NodeMap();
         edgeMap = new EdgeMap();
 
+    }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l){
+        Toast.makeText( this, adapterView.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView){
     }
 
     /** Called when the user taps the Settings button */

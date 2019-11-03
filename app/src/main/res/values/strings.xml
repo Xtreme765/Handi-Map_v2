@@ -1,4 +1,30 @@
 <resources>
     <string name="app_name">Handi-Map</string>
+    <string name="title_settings_activity">Settings</string>
+    <string-array name="spinner_items">
+        <item>Locations</item>
+        <item>Academy Hall</item>
+        <item>Admissions</item>
+        <item>Amos Eaton</item>
+        <item>Barton Hall</item>
+        <item>Blitman Residence Commons</item>
+        <item>Bray Hall</item>
+        <item>Carnegie Building</item>
+        <item>Cary Hall</item>
+        <item>Center for Biotechnology and Interdisciplinary Studies (CBIS)</item>
+        <item>Commons Dining Hall</item>
+        <item>Crockett Hall</item>
+        <item>Darrin Communications Center (DCC)</item>
+        <item>Davison Hall</item>
+        <item>Experimental Media and Performing Arts Center (EMPAC)</item>
+        <item>Folsom Library</item>
+        <item>Greene Building</item>
+        <item>87 Gymnasium</item>
+        <item>Hall Hall</item>
+        <item>Lally Hall</item>
+        <item>Mueller Center</item>
+        <item>More Locations Added Soon</item>
+
+    </string-array>
     <string name="title_activity_maps">Map</string>
 </resources>
