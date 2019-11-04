@@ -40,7 +40,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         Spinner locationSpinner = findViewById(R.id.locationSpinner);
+        Spinner locationSpinner2 = findViewById(R.id.locationSpinner2);
         locationSpinner.setOnItemSelectedListener(this);
+        locationSpinner2.setOnItemSelectedListener(this);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()

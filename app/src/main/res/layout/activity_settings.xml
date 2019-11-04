@@ -6,4 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
+    <Switch
+        android:id="@+id/switch3"
+        android:layout_width="356dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="28dp"
+        android:text="Avoid Steep Slopes"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch2" />
+
+    <Switch
+        android:id="@+id/switch2"
+        android:layout_width="356dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="28dp"
+        android:text="Avoid Ramps"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch1" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="356dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="28dp"
+        android:text="Avoid Stairs"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
