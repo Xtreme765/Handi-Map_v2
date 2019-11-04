@@ -22,16 +22,24 @@
         android:gravity="left">
 
         <Button
+            android:id="@+id/settingsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="settingsMessage"
             android:text="SETTINGS" />
+
+        <Button
+            android:id="@+id/navigationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="navigationMessage"
+            android:text="Navigation Beta" />
     </LinearLayout>
 
 
     <Spinner
         android:id="@+id/locationSpinner"
-        android:layout_width="371dp"
+        android:layout_width="370dp"
         android:layout_height="35dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
@@ -49,7 +57,7 @@
 
     <Spinner
         android:id="@+id/locationSpinner2"
-        android:layout_width="371dp"
+        android:layout_width="370dp"
         android:layout_height="35dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"

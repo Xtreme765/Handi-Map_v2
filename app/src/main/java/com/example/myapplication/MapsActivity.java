@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -67,6 +68,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /** Called when the user taps the Settings button */
     public void settingsMessage(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    /** Called when the user taps the Navigation button */
+    public void navigationMessage(View view) {
+        Intent intent = new Intent(this, NavigationActivity.class);
         startActivity(intent);
     }
 
