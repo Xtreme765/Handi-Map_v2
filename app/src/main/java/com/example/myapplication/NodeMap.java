@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Map;
 
 public class NodeMap {
 
@@ -10,13 +11,34 @@ public class NodeMap {
     private Hashtable<String, Node> map;
 
     public NodeMap() {
+
         map = new Hashtable();
+
     }
 
-    public void addNode(Node p) {
-        map.put(p.getId(), p);
+    // Used to create a duplicate node map
+    // This might not be a good idea in terms of memory... might not be an issue
+    public NodeMap(NodeMap nodeMap) {
+
+        map = nodeMap.getMap();
+
     }
 
+    public void addNode(Node node) {
+        if(map.containsKey(node.getId())) {
+            System.out.println("WHAT THE FUCK");
+        }
+        map.put(node.getId(), node);
+    }
+
+    public void removeNode(Node node) {
+
+        map.remove(node.getId());
+    }
+    public void removeNode(String id) {
+
+        map.remove(id);
+    }
     public Node getNode(String id) {
         // Search through the map and return the requested Node
         if (map.containsKey(id)) {
@@ -28,12 +50,24 @@ public class NodeMap {
     }
 
 
+
+    public Hashtable<String, Node> getMap() {
+
+        return new Hashtable<>(map);
+    }
+
+
+    // Sets all node scores to an essentially infinite value
+    // This is the first step in Dijksta's algorithm
     public void resetDijkstra() {
 
-
         Iterator nodeIterator = map.entrySet().iterator();
+
         while(nodeIterator.hasNext()) {
-          //  map.
+
+            Map.Entry mapElement = (Map.Entry)nodeIterator.next();
+            Node currentNode = (Node)mapElement.getValue();
+            currentNode.setScore(1000000);
         }
 
     }

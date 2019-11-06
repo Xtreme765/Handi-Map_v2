@@ -1,6 +1,10 @@
 package com.example.myapplication;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Node {
 
@@ -10,6 +14,7 @@ public class Node {
     private boolean isRamp;
     private ArrayList<Edge> edges;
     private double score;
+    private Path path;
 
 
 
@@ -35,7 +40,46 @@ public class Node {
 
     // We add edges after all the nodes are created
     public void addEdge(Edge edge) {
+
+        // Check if the edge already exists in the Node's edge list
+        String newStartId = edge.getStartingNode().getId();
+        String newEndId = edge.getEndingNode().getId();
+        Iterator iter = edges.iterator();
+        while(iter.hasNext()) {
+           // Map.Entry mapElem = (Map.Entry) iter.next();
+            Edge tempEdge = (Edge)iter.next();
+            //Edge tempEdge = (Edge) mapElem.getValue();
+            String tempStartId = tempEdge.getStartingNode().getId();
+            String tempEndId = tempEdge.getEndingNode().getId();
+            if ((newStartId.equals(tempStartId) && newEndId.equals(tempEndId) )
+                || (newStartId.equals(tempEndId) && newEndId.equals(tempStartId))) {
+                    return;
+            }
+        }
         this.edges.add(edge);
+    }
+
+
+    public void removeEdge(Edge edge) {
+        String startId = edge.getStartingNode().getId();
+        String endId = edge.getEndingNode().getId();
+
+        Iterator iter = edges.iterator();
+        int edgeIndex = 0;
+        while(iter.hasNext()) {
+            Edge nextEdge = (Edge)iter.next();
+            String nextStartId = nextEdge.getStartingNode().getId();
+            String nextEndId = nextEdge.getEndingNode().getId();
+            if ((startId.equals(nextStartId) && endId.equals(nextEndId))
+                || (startId.equals(nextEndId) && endId.equals(nextStartId))) {
+                    System.out.println("Found edge to remove");
+                    edges.remove(edgeIndex);
+                    return;
+            }
+            edgeIndex++;
+        }
+
+
     }
 
     public String getId() {
@@ -64,6 +108,16 @@ public class Node {
 
     public void setScore(double score) {
         this.score = score;
+    }
+    public double getScore() {
+        return score;
+    }
+    public void setPath(Path path) {
+        this.path = path;
+    }
+    public Path getPath() {
+        System.out.println("Path: " + path.toString());
+        return new Path(path);
     }
 
 }

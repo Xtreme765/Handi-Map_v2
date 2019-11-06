@@ -11,6 +11,9 @@ public class Path {
         path.add(node);
     }
 
+    public Path(Path path) {
+        this.path = path.getPath();
+    }
 
     public Path(Path path, Node node) {
         this.path = path.getPath();
@@ -19,11 +22,17 @@ public class Path {
 
 
 
+
+
     public ArrayList<Node> getPath() {
         return new ArrayList<>(path);
     }
 
-    public double getDistance(String unit) {
+    public void addNode(Node node) {
+        path.add(node);
+    }
+
+    public double getDistance() {
 
         double dist = 0;
         for (int i = 0; i < path.size()-1; i++) {

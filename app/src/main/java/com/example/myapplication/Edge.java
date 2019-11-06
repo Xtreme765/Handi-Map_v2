@@ -8,17 +8,14 @@ public class Edge {
 
 
     Edge(Node startingNode, Node endingNode) {
-        System.out.println("Creating new edge from id: " + startingNode.getId() + " to node with id: " + endingNode.getId());
         this.startingNode = startingNode;
         this.endingNode = endingNode;
     }
 
     public Node getStartingNode() {
-        System.out.println("Getting start node");
         return new Node(startingNode);
     }
     public Node getEndingNode() {
-        System.out.println("Getting end node");
         return new Node(endingNode);
     }
 
@@ -28,7 +25,7 @@ public class Edge {
     //   unit 'M' is statute miles (default)
     //   unit 'K' is kilometers
     //   unit 'N' is nautical miles
-    public double getLength(String unit) {
+    public double getLength() {
             float lon1 = startingNode.getPoint().getLongitude();
             float lat1 = startingNode.getPoint().getLatitude();
             float lat2 = endingNode.getPoint().getLatitude();
@@ -43,11 +40,6 @@ public class Edge {
                 dist = Math.acos(dist);
                 dist = Math.toDegrees(dist);
                 dist = dist * 60 * 1.1515;
-                if (unit == "K") {
-                    dist = dist * 1.609344;
-                } else if (unit == "N") {
-                    dist = dist * 0.8684;
-                }
                 return dist;
             }
         }
