@@ -3,4 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="handiPrimary">#4C96D7</color>
+    <color name="handiPrimaryDark">#347CBC</color>
+    <color name="handiAccent">#D613CA</color>
+    <color name="whiteColor">#FFFFFF</color>
 </resources>
