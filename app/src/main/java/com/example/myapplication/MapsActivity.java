@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,7 +28,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
 
     private GoogleMap mMap;
 
@@ -52,8 +54,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /** Called when the user taps the Settings button */
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l){
+        Toast.makeText( this, adapterView.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView){
+    }
+
+    /** Called when the user taps the Settings button */
     public void settingsMessage(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    /** Called when the user taps the Navigation button */
+    public void navigationMessage(View view) {
+        Intent intent = new Intent(this, NavigationActivity.class);
         startActivity(intent);
     }
 
