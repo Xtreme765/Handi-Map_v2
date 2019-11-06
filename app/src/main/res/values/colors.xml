@@ -7,4 +7,7 @@
     <color name="handiPrimaryDark">#347CBC</color>
     <color name="handiAccent">#D613CA</color>
     <color name="whiteColor">#FFFFFF</color>
+    <color name="routeBlue">#1403FC</color>
+    <color name="routeRed">#ED3F00</color>
+    <color name="routePink">#ED0096</color>
 </resources>

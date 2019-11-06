@@ -99,6 +99,7 @@
         android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:entries="@array/spinner_colors"
         android:background="@color/handiPrimary"
         app:layout_constraintTop_toBottomOf="@+id/changeColor" />
 
