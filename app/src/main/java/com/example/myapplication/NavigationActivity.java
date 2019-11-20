@@ -21,11 +21,13 @@ public class NavigationActivity extends AppCompatActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+
         locationSpinner = findViewById(R.id.locationSpinnerA);
         spinnerText = locationSpinner.getSelectedItem().toString();
+        locationSpinner.setOnItemSelectedListener(this);
+
         locationSpinner2 = findViewById(R.id.locationSpinnerB);
         spinnerText2 = locationSpinner2.getSelectedItem().toString();
-        locationSpinner.setOnItemSelectedListener(this);
         locationSpinner2.setOnItemSelectedListener(this);
 
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.spinner_items, R.layout.spinner_item);
@@ -47,6 +49,16 @@ public class NavigationActivity extends AppCompatActivity implements AdapterView
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView){
+    }
+
+    public String getLocation() {
+        String sLocation = spinnerText;
+        return sLocation;
+    }
+
+    public String getDestination() {
+        String eDestination = spinnerText2;
+        return eDestination;
     }
 
     /** Called when the user taps the Back button */
