@@ -27,7 +27,6 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l){
         pathColor = colorSpinner.getSelectedItem().toString();
-        //Change color here
     }
 
     @Override
@@ -36,7 +35,10 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
 
     /** Called when the user taps the Back button */
     public void mapsMessage(View view) {
+        String passedColor = pathColor;
+
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("colorKey", passedColor);
         startActivity(intent);
     }
 }
