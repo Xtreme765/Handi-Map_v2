@@ -113,7 +113,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         drawAllEdges();
 
-
+        Bundle bundle = getIntent().getExtras();
+        //String startLocation = "Location";
+        //String endDestination = "Destination";
+        //startLocation = bundle.getString("startKey");
+        //endDestination = bundle.getString("endKey");
+        //Path testRoute = findPath(startLocation, endDestination);
         Path testRoute = findPath("dree56uk7001", "dree56dkf60b");
         drawPath(testRoute, 0, 0, 255, 10);
 

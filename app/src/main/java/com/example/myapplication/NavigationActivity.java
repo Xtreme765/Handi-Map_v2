@@ -51,16 +51,6 @@ public class NavigationActivity extends AppCompatActivity implements AdapterView
     public void onNothingSelected(AdapterView<?> adapterView){
     }
 
-    public String getLocation() {
-        String sLocation = spinnerText;
-        return sLocation;
-    }
-
-    public String getDestination() {
-        String eDestination = spinnerText2;
-        return eDestination;
-    }
-
     /** Called when the user taps the Back button */
     public void routingMessage(View view) {
         // Code for sending Starting Location and Destination
@@ -71,6 +61,8 @@ public class NavigationActivity extends AppCompatActivity implements AdapterView
 
         // Goes back to map screen
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("startKey", sLocation);
+        intent.putExtra("endKey", eDestination);
         startActivity(intent);
     }
 
