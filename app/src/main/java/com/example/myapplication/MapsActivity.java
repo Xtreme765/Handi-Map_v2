@@ -53,11 +53,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    /** Called when the user taps the Settings button */
+    /** Called when the user taps any item, can be used for sending message about location selected*/
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l){
-        Toast.makeText( this, adapterView.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText( this, adapterView.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
