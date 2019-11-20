@@ -126,33 +126,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Replaces default locations with start and end specified
         Bundle bundle = getIntent().getExtras();
         if ( bundle != null ) {
-            startLocation = bundle.getString("startKey");
-            endDestination = bundle.getString("endKey");
-            pathColor = bundle.getString("colorKey");
+            if ((bundle.getString("startKey") != null) && (bundle.getString("endKey") != null)) {
+                startLocation = bundle.getString("startKey");
+                endDestination = bundle.getString("endKey");
+            }
+            if (bundle.getString("colorKey") != null) {
+                pathColor = bundle.getString("colorKey");
+            }
             //testRoute = findPath(startLocation, endDestination);
         }
 
         // Changes Color based on what's specified
-        if (pathColor.equals("Blue"))
-        {
+        if (pathColor.equals("Blue")) {
             rVal = 0;
             gVal = 0;
             bVal = 255;
         }
-        if (pathColor.equals("Red"))
-        {
+        if (pathColor.equals("Red")) {
             rVal = 255;
             gVal = 0;
             bVal = 0;
         }
-        if (pathColor.equals("Pink"))
-        {
+        if (pathColor.equals("Pink")) {
             rVal = 255;
             gVal = 192;
             bVal = 203;
         }
-        if (pathColor.equals("Green"))
-        {
+        if (pathColor.equals("Green")) {
             rVal = 50;
             gVal = 255;
             bVal = 15;
