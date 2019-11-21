@@ -27,6 +27,8 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l){
         pathColor = colorSpinner.getSelectedItem().toString();
+        //colorSpinner.onSaveInstanceState();
+        //onSaveInstanceState();
     }
 
     @Override

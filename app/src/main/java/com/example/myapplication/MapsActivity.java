@@ -35,6 +35,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private NodeMap nodeMap;
     private EdgeMap edgeMap;
 
+    //Path Colors
+    int rVal = 0;
+    int gVal = 0;
+    int bVal = 255;
+    String pathColor = "Blue";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,13 +121,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Default path values
         Path testRoute = findPath("dree56uk7001", "dree56dkf60b");
         // Path Color Values
-        int rVal = 0;
-        int gVal = 0;
-        int bVal = 0;
+        //int rVal = 0;
+        //int gVal = 0;
+        //int bVal = 0;
         // Defaults
         String startLocation;
         String endDestination;
-        String pathColor = "Blue";
+        //String pathColor = "Blue";
         // Gets locations and colors passed to this activity
         // Replaces default locations with start and end specified
         Bundle bundle = getIntent().getExtras();
