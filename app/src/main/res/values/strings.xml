@@ -2,55 +2,104 @@
     <string name="app_name">Handi-Map</string>
     <string name="title_settings_activity">Settings</string>
 
+    <!-- Settings Strings -->
+    <string name="zoomSetting">Zoom (pinches)</string>
+    <string name="selectSetting">Building Select (taps)</string>
+    <string name="slopesSetting">Avoid Steep Slopes</string>
+    <string name="rampsSetting">Avoid Ramps</string>
+    <string name="stairsSetting">Avoid Stairs</string>
+    <string name="pathColorSetting">Change Path Color:</string>
+    <string name="modeSetting">Change Mode:</string>
+    <string name="returnButton">Return</string>
+
     <string-array name="spinner_items">
         <item>Starting Location</item>
+        <item>87 Gymnasium</item>
         <item>Academy Hall</item>
         <item>Admissions</item>
         <item>Amos Eaton</item>
         <item>Barton Hall</item>
-        <item>Blitman Residence Commons</item>
+        <item>Blitman Commons</item>
         <item>Bray Hall</item>
         <item>Carnegie Building</item>
         <item>Cary Hall</item>
-        <item>Center for Biotechnology and Interdisciplinary Studies (CBIS)</item>
+        <item>Center for Biotech. (CBIS)</item>
+        <item>Cogswell Laboratory</item>
         <item>Commons Dining Hall</item>
         <item>Crockett Hall</item>
-        <item>Darrin Communications Center (DCC)</item>
+        <item>Darrin Comm. Center (DCC)</item>
         <item>Davison Hall</item>
-        <item>Experimental Media and Performing Arts Center (EMPAC)</item>
+        <item>Experimental Media (EMPAC)</item>
         <item>Folsom Library</item>
         <item>Greene Building</item>
-        <item>87 Gymnasium</item>
         <item>Hall Hall</item>
+        <item>Jonsson Engineering Center (JEC)</item>
+        <item>Jonsson Engineering Center (JROWL)</item>
         <item>Lally Hall</item>
+        <item>Low Center for Ind. Innov.(CII)</item>
         <item>Mueller Center</item>
-        <item>More Locations Added Soon</item>
+        <item>Nason Hall</item>
+        <item>Nugent Hall</item>
+        <item>Pittsburgh Building</item>
+        <item>Public Safety</item>
+        <item>Rensselaer Union</item>
+        <item>Rickets Building</item>
+        <item>Sage Dining Hall</item>
+        <item>Sage Laboratory</item>
+        <item>Troy Building</item>
+        <item>Voorhees Computing Center (VCC)</item>
+        <item>Walker Laboratory</item>
+        <item>West Hall</item>
 
     </string-array>
 
     <string-array name="spinner_items2">
         <item>Destination</item>
+        <item>87 Gymnasium</item>
         <item>Academy Hall</item>
         <item>Admissions</item>
         <item>Amos Eaton</item>
         <item>Barton Hall</item>
-        <item>Blitman Residence Commons</item>
+        <item>Blitman Commons</item>
         <item>Bray Hall</item>
         <item>Carnegie Building</item>
         <item>Cary Hall</item>
-        <item>Center for Biotechnology and Interdisciplinary Studies (CBIS)</item>
+        <item>Center for Biotech. (CBIS)</item>
+        <item>Cogswell Laboratory</item>
         <item>Commons Dining Hall</item>
         <item>Crockett Hall</item>
-        <item>Darrin Communications Center (DCC)</item>
+        <item>Darrin Comm. Center (DCC)</item>
         <item>Davison Hall</item>
-        <item>Experimental Media and Performing Arts Center (EMPAC)</item>
+        <item>Experimental Media (EMPAC)</item>
         <item>Folsom Library</item>
         <item>Greene Building</item>
-        <item>87 Gymnasium</item>
         <item>Hall Hall</item>
+        <item>Jonsson Engineering Center (JEC)</item>
+        <item>Jonsson Engineering Center (JROWL)</item>
         <item>Lally Hall</item>
+        <item>Low Center for Ind. Innov.(CII)</item>
         <item>Mueller Center</item>
-        <item>More Locations Added Soon</item>
+        <item>Nason Hall</item>
+        <item>Nugent Hall</item>
+        <item>Pittsburgh Building</item>
+        <item>Public Safety</item>
+        <item>Rensselaer Union</item>
+        <item>Rickets Building</item>
+        <item>Sage Dining Hall</item>
+        <item>Sage Laboratory</item>
+        <item>Troy Building</item>
+        <item>Voorhees Computing Center (VCC)</item>
+        <item>Walker Laboratory</item>
+        <item>West Hall</item>
+
+    </string-array>
+
+    <string-array name="spinner_colors">
+        <item>Blue</item>
+        <item>Red</item>
+        <item>Pink</item>
+        <item>Green</item>
+
 
     </string-array>
 
