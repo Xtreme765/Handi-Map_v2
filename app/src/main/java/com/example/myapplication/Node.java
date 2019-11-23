@@ -11,19 +11,19 @@ public class Node {
     private Point point;
     private String description;
     private boolean isStairs;
-    private boolean isRamp;
     private ArrayList<Edge> edges;
     private double score;
+    private String buildingName;
     private Path path;
 
 
 
-    public Node(Point point, String description, boolean isStairs, boolean isRamp) {
+    public Node(Point point, String buildingName, String description, boolean isStairs) {
 
         this.point = point;
         this.description = description;
         this.isStairs = isStairs;
-        this.isRamp = isRamp;
+        this.buildingName = buildingName;
         // The edge list starts empty since we create nodes one at a time
         // we won't be able to connect a node to a non-existent node
         // Instead we will populate the edges once all nodes have been created
@@ -33,9 +33,10 @@ public class Node {
     public  Node(Node node) {
         this.point = node.getPoint();
         this.description = node.getDescription();
+        this.buildingName = node.getBuilding();
         this.isStairs = node.getIsStairs();
-        this.isRamp = node.getIsRamp();
         this.edges = node.getEdges();
+        this.score = node.getScore();
     }
 
     // We add edges after all the nodes are created
@@ -98,10 +99,6 @@ public class Node {
        return Boolean.valueOf(isStairs);
     }
 
-    public Boolean getIsRamp(){
-       return Boolean.valueOf(isRamp);
-    }
-
     public ArrayList<Edge> getEdges() {
         return new ArrayList<>(edges);
     }
@@ -118,6 +115,9 @@ public class Node {
     public Path getPath() {
         System.out.println("Path: " + path.toString());
         return new Path(path);
+    }
+    public String getBuilding() {
+        return buildingName;
     }
 
 }

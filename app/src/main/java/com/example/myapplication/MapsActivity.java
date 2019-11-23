@@ -28,12 +28,22 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
 
     private GoogleMap mMap;
 
     private NodeMap nodeMap;
     private EdgeMap edgeMap;
+    private BuildingMap buildingMap;
+
+
+    //Path Colors
+    int rVal = 0;
+    int gVal = 0;
+    int bVal = 255;
+    String pathColor = "Blue";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         nodeMap = new NodeMap();
         edgeMap = new EdgeMap();
-
+        buildingMap = new BuildingMap();
 
 
     }
@@ -107,21 +117,63 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         createEdges();
 
 
-       // findOverlaps(false);
+        //findOverlaps(false);
         //findOverlaps(false);
 
         drawAllEdges();
 
+        Path testRoute = findPathFromBuildings("ECOMPLEX", "86FIELD");
+        if (testRoute == null) {
+            System.out.println("No Route Possible");
+        }
+        // Path Color Values
+        //int rVal = 0;
+        //int gVal = 0;
+        //int bVal = 0;
+        // Defaults
+        String startLocation;
+        String endDestination;
+        //String pathColor = "Blue";
+        // Gets locations and colors passed to this activity
+        // Replaces default locations with start and end specified
+        Bundle bundle = getIntent().getExtras();
+        if ( bundle != null ) {
+            if ((bundle.getString("startKey") != null) && (bundle.getString("endKey") != null)) {
+                startLocation = bundle.getString("startKey");
+                endDestination = bundle.getString("endKey");
+            }
+            if (bundle.getString("colorKey") != null) {
+                pathColor = bundle.getString("colorKey");
+            }
+            //testRoute = findPath(startLocation, endDestination);
+        }
 
-        Path testRoute = findPath("dree56uk7001", "dree56dkf60b");
-        drawPath(testRoute, 0, 0, 255, 10);
+        // Changes Color based on what's specified
+        if (pathColor.equals("Blue")) {
+            rVal = 0;
+            gVal = 0;
+            bVal = 255;
+        }
+        if (pathColor.equals("Red")) {
+            rVal = 255;
+            gVal = 0;
+            bVal = 0;
+        }
+        if (pathColor.equals("Pink")) {
+            rVal = 255;
+            gVal = 192;
+            bVal = 203;
+        }
+        if (pathColor.equals("Green")) {
+            rVal = 50;
+            gVal = 255;
+            bVal = 15;
+        }
 
+        drawPath(testRoute, rVal, gVal, bVal, 10);
 
-
-      //  testRoute = findPath("dree56gxx48z", "dree56dsbvf5");
-      //  drawPath(testRoute, 255, 0, 0, 10);
-
-
+        //  testRoute = findPath("dree56gxx48z", "dree56dsbvf5");
+        //  drawPath(testRoute, 255, 0, 0, 10);
 
     }
 
@@ -144,15 +196,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // Output the data (not needed in final project)
           //      Log.d("MainActivity" ,"Point: " + tokens[0] + ", longitude: " + tokens[2] + ", latitude: "  + tokens[1]);
 
+
+                //ID,LATITUDE,LONGITUDE,BUILDING NAME,DESCRIPTION,ISSTAIR,EDGES
                 // Create the Point from the id and coordinates
                 Point newPoint = new Point(tokens[0], Float.parseFloat(tokens[2]), Float.parseFloat(tokens[1]));
 
+                //public Node(Point point, String description, boolean isStairs, boolean isRamp)
                 // Create a node from this point along with description, isStairs, and isRamp information
-                Node newNode = new Node(newPoint, tokens[3], Boolean.parseBoolean(tokens[4]), Boolean.parseBoolean(tokens[5]));
+                Node newNode = new Node(newPoint, tokens[3], tokens[4], Boolean.parseBoolean(tokens[5]));
 
                 // Add this new node to the node map for later use
                 nodeMap.addNode(newNode);
 
+                String buildingName = newNode.getBuilding();
+                if (!buildingName.equals("N/A")) {
+                    Entrance newEntrance = new Entrance(buildingName, newNode);
+                    buildingMap.addEntrance(newEntrance);
+                }
 
                // mMap.addMarker()
 
@@ -184,6 +244,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // Split the line into cells
                 String[] tokens = line.split(",");
 
+                //ID,LATITUDE,LONGITUDE,BUILDING NAME,DESCRIPTION,ISSTAIR,EDGES
                 String[] connectedNodes = tokens[6].split(";");
 
                 Node currentNode = nodeMap.getNode(tokens[0]);
@@ -210,10 +271,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Edge newEdge = new Edge(currentNode, connectedNode);
 
 
-                    if (newEdge.getLength() > 0.05) {
+                   // if (newEdge.getLength() > 0.05) {
                     //    System.out.println("Found very large edge: " + newEdge.getStartingNode().getId() + "+" + newEdge.getEndingNode().getId());
-                        continue;
-                    }
+                  //      continue;
+                  //  }
 
 
                     // Add the edge to the current Node
@@ -251,26 +312,105 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Map.Entry mapElement = (Map.Entry)edgeIterator.next();
             Edge currentEdge = (Edge)mapElement.getValue();
 
-            float startLongitude = currentEdge.getStartingNode().getPoint().getLongitude();
-            float startLatitude = currentEdge.getStartingNode().getPoint().getLatitude();
+            Node startingNode = currentEdge.getStartingNode();
+            Node endingNode = currentEdge.getEndingNode();
+
+            float startLongitude = startingNode.getPoint().getLongitude();
+            float startLatitude = startingNode.getPoint().getLatitude();
             LatLng startCoord = new LatLng(startLatitude, startLongitude);
 
 
-            if(currentEdge.getStartingNode().getEdges().size() > 2) {
-                mMap.addMarker(new MarkerOptions().position(startCoord).title("Intersection with " + currentEdge.getStartingNode().getEdges().size() + " edges"));
-            }
 
-
-            float endLongitude = currentEdge.getEndingNode().getPoint().getLongitude();
-            float endLatitude = currentEdge.getEndingNode().getPoint().getLatitude();
+            float endLongitude = endingNode.getPoint().getLongitude();
+            float endLatitude = endingNode.getPoint().getLatitude();
             LatLng endCoord = new LatLng(endLatitude, endLongitude);
 
-            mMap.addPolyline(new PolylineOptions()
-                    .add(startCoord, endCoord)
-                    .width(5)
-                    .color(Color.BLACK));
+            if (startingNode.getIsStairs()) {
+
+                mMap.addPolyline(new PolylineOptions()
+                        .add(startCoord, endCoord)
+                        .width(5)
+                        .color(Color.RED));
+            }
+            else {
+
+                mMap.addPolyline(new PolylineOptions()
+                        .add(startCoord, endCoord)
+                        .width(5)
+                        .color(Color.BLACK));
+            }
+            String buildingName = startingNode.getBuilding();
+            if (!buildingName.equals("N/A")) {
+
+                LatLng buildingLocation = new LatLng(startingNode.getPoint().getLatitude(), startingNode.getPoint().getLongitude());
+                mMap.addMarker(new MarkerOptions().position(buildingLocation).title(buildingName));
+
+            }
+
        }
     }
+
+    private Path findPathFromBuildings(String startBuilding, String endBuilding) {
+
+        ArrayList<Entrance> startEntrances = buildingMap.getEntrances(startBuilding);
+        ArrayList<Entrance> endEntrances = buildingMap.getEntrances(endBuilding);
+        if(startEntrances.size() == 0) {
+            System.out.println("ERROR: No entrances for building named: " + startBuilding);
+            return null;
+        }
+
+        if(endEntrances.size() == 0) {
+            System.out.println("ERROR: No entrances for building named: " + startBuilding);
+            return null;
+        }
+
+
+        ArrayList<Path> possiblePaths = new ArrayList<>();
+        Path finalPath = null;
+
+
+        for (int i = 0; i < startEntrances.size(); i++) {
+
+            Entrance nextStartEntrance = startEntrances.get(i);
+            Node startNode = nextStartEntrance.getNode();
+
+            for (int j = 0; j < endEntrances.size(); j++) {
+
+                Entrance nextEndEntrance = endEntrances.get(j);
+                Node endNode = nextEndEntrance.getNode();
+
+                Path newPath = findPath(startNode.getId(), endNode.getId());
+                possiblePaths.add(newPath);
+
+            }
+        }
+
+
+        double maximumDistance = 1000000;
+
+
+        for (int i = 0; i < possiblePaths.size(); i++) {
+
+            Path nextPossiblePath = possiblePaths.get(i);
+
+            if (nextPossiblePath.getDistance() < maximumDistance) {
+                finalPath = nextPossiblePath;
+                maximumDistance = nextPossiblePath.getDistance();
+            }
+        }
+
+
+
+
+        if (finalPath == null) {
+            System.out.println("No possible paths between " + startBuilding + " and " + endBuilding);
+        }
+
+        return finalPath;
+
+
+    }
+
 
     private Path findPath(String startId, String endId) {
 
@@ -299,7 +439,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 double length = nextEdge.getLength();
                 Node currentNeighbor = nextEdge.getStartingNode();
                 if (currentNeighbor.getScore() != 1000000) {
+                    System.out.println("TEST " + length);
                     length = length + currentNeighbor.getScore();
+                    System.out.println("TEST2 " + length);
                 }
                 if (length < minDistance) {
                     minDistance = length;
@@ -336,6 +478,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // the existing path to that node then update the node
             if (newPath.getDistance() < closestNode.getScore() ) {
             //    drawPath(newPath);
+                System.out.println("Seting score of node: " + closestNode.getId() + " to: " + newPath.getDistance());
                 closestNode.setScore(newPath.getDistance());
                 closestNode.setPath(newPath);
             }
