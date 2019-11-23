@@ -122,17 +122,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         drawAllEdges();
 
-        Path testRoute = findPathFromBuildings("ECOMPLEX", "86FIELD");
-        if (testRoute == null) {
-            System.out.println("No Route Possible");
-        }
+      //  Path testRoute = findPathFromBuildings("ECOMPLEX", "86FIELD");
+        Path testRoute = null;
+
         // Path Color Values
         //int rVal = 0;
         //int gVal = 0;
         //int bVal = 0;
         // Defaults
-        String startLocation;
-        String endDestination;
+        String startLocation = "";
+        String endDestination = "";
         //String pathColor = "Blue";
         // Gets locations and colors passed to this activity
         // Replaces default locations with start and end specified
@@ -145,33 +144,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (bundle.getString("colorKey") != null) {
                 pathColor = bundle.getString("colorKey");
             }
-            //testRoute = findPath(startLocation, endDestination);
-        }
+            testRoute = findPathFromBuildings(startLocation, endDestination);
 
-        // Changes Color based on what's specified
-        if (pathColor.equals("Blue")) {
-            rVal = 0;
-            gVal = 0;
-            bVal = 255;
-        }
-        if (pathColor.equals("Red")) {
-            rVal = 255;
-            gVal = 0;
-            bVal = 0;
-        }
-        if (pathColor.equals("Pink")) {
-            rVal = 255;
-            gVal = 192;
-            bVal = 203;
-        }
-        if (pathColor.equals("Green")) {
-            rVal = 50;
-            gVal = 255;
-            bVal = 15;
-        }
+            if (testRoute == null) {
+                System.out.println("No Route Possible");
+            }
+            // Changes Color based on what's specified
+            if (pathColor.equals("Blue")) {
+                rVal = 0;
+                gVal = 0;
+                bVal = 255;
+            }
+            if (pathColor.equals("Red")) {
+                rVal = 255;
+                gVal = 0;
+                bVal = 0;
+            }
+            if (pathColor.equals("Pink")) {
+                rVal = 255;
+                gVal = 192;
+                bVal = 203;
+            }
+            if (pathColor.equals("Green")) {
+                rVal = 50;
+                gVal = 255;
+                bVal = 15;
+            }
 
-        drawPath(testRoute, rVal, gVal, bVal, 10);
-
+            drawPath(testRoute, rVal, gVal, bVal, 10);
+        }
         //  testRoute = findPath("dree56gxx48z", "dree56dsbvf5");
         //  drawPath(testRoute, 255, 0, 0, 10);
 
