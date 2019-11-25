@@ -20,6 +20,17 @@ public class Path {
         this.path.add(node);
     }
 
+    public Node getStart() {
+        Node firstNode = path.get(0);
+        return firstNode;
+    }
+
+
+    public Node getEnd() {
+        Node lastNode = path.get(path.size()-1);
+        return lastNode;
+    }
+
 
 
 

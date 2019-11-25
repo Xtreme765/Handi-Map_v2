@@ -15,8 +15,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,6 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private NodeMap nodeMap;
     private EdgeMap edgeMap;
     private BuildingMap buildingMap;
+    private ArrayList<Marker> markerMap;
 
 
     //Path Colors
@@ -59,6 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         nodeMap = new NodeMap();
         edgeMap = new EdgeMap();
         buildingMap = new BuildingMap();
+        markerMap = new ArrayList<>();
 
 
     }
@@ -104,9 +108,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
+        // Move the camera to the Union by default
         LatLng rpi_union = new LatLng(42.730192, -73.676731);
-        mMap.addMarker(new MarkerOptions().position(rpi_union).title("The Union"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(rpi_union));
         mMap.setMinZoomPreference(16);
 
@@ -115,24 +118,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Reads through the database and creates all edges
         createEdges();
-
-
-        //findOverlaps(false);
-        //findOverlaps(false);
-
         drawAllEdges();
 
-      //  Path testRoute = findPathFromBuildings("ECOMPLEX", "86FIELD");
-        Path testRoute = null;
+        Path userRoute;
 
-        // Path Color Values
-        //int rVal = 0;
-        //int gVal = 0;
-        //int bVal = 0;
-        // Defaults
         String startLocation = "";
         String endDestination = "";
-        //String pathColor = "Blue";
         // Gets locations and colors passed to this activity
         // Replaces default locations with start and end specified
         Bundle bundle = getIntent().getExtras();
@@ -144,9 +135,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (bundle.getString("colorKey") != null) {
                 pathColor = bundle.getString("colorKey");
             }
-            testRoute = findPathFromBuildings(startLocation, endDestination);
-
-            if (testRoute == null) {
+            userRoute = findPathFromBuildings(startLocation, endDestination);
+         //   System.out.println("HERE: " + userRoute.getPath().size());
+            if (userRoute == null) {
                 System.out.println("No Route Possible");
             }
             // Changes Color based on what's specified
@@ -171,10 +162,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 bVal = 15;
             }
 
-            drawPath(testRoute, rVal, gVal, bVal, 10);
+ /*           Node startNode = userRoute.getStart();
+            double startLatitude = startNode.getPoint().getLatitude();
+            double startLongitude = startNode.getPoint().getLongitude();
+            LatLng startCoord = new LatLng(startLatitude, startLongitude);
+
+            for(int i = 0; i < markerMap.size(); i++) {
+                markerMap.get(i).remove();
+            }
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(startCoord));
+            Marker startMarker = mMap.addMarker(new MarkerOptions().position(startCoord).title(startLocation));
+            markerMap.add(startMarker);
+
+            Node endNode = userRoute.getEnd();
+            double endLatitude = endNode.getPoint().getLatitude();
+            double endLongitude = endNode.getPoint().getLongitude();
+            LatLng endCoord = new LatLng(endLatitude, endLongitude);
+            Marker endMarker = mMap.addMarker(new MarkerOptions().position(endCoord).title(endDestination));
+            markerMap.add(endMarker);
+*/
+         //   System.out.println("Drawing");
+            drawPath(userRoute, rVal, gVal, bVal, 10);
         }
-        //  testRoute = findPath("dree56gxx48z", "dree56dsbvf5");
-        //  drawPath(testRoute, 255, 0, 0, 10);
 
     }
 
@@ -194,15 +203,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // Split the line into cells
                 String[] tokens = line.split(",");
 
-                // Output the data (not needed in final project)
-          //      Log.d("MainActivity" ,"Point: " + tokens[0] + ", longitude: " + tokens[2] + ", latitude: "  + tokens[1]);
-
-
-                //ID,LATITUDE,LONGITUDE,BUILDING NAME,DESCRIPTION,ISSTAIR,EDGES
                 // Create the Point from the id and coordinates
                 Point newPoint = new Point(tokens[0], Float.parseFloat(tokens[2]), Float.parseFloat(tokens[1]));
 
-                //public Node(Point point, String description, boolean isStairs, boolean isRamp)
                 // Create a node from this point along with description, isStairs, and isRamp information
                 Node newNode = new Node(newPoint, tokens[3], tokens[4], Boolean.parseBoolean(tokens[5]));
 
@@ -213,10 +216,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (!buildingName.equals("N/A")) {
                     Entrance newEntrance = new Entrance(buildingName, newNode);
                     buildingMap.addEntrance(newEntrance);
+
                 }
-
-               // mMap.addMarker()
-
 
             }
 
@@ -270,12 +271,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     // Edge from the current node to one of it's connected nodes
                     Edge newEdge = new Edge(currentNode, connectedNode);
-
-
-                   // if (newEdge.getLength() > 0.05) {
-                    //    System.out.println("Found very large edge: " + newEdge.getStartingNode().getId() + "+" + newEdge.getEndingNode().getId());
-                  //      continue;
-                  //  }
 
 
                     // Add the edge to the current Node
@@ -342,10 +337,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             String buildingName = startingNode.getBuilding();
             if (!buildingName.equals("N/A")) {
-
                 LatLng buildingLocation = new LatLng(startingNode.getPoint().getLatitude(), startingNode.getPoint().getLongitude());
                 mMap.addMarker(new MarkerOptions().position(buildingLocation).title(buildingName));
-
+            }
+            String buildingName2 = endingNode.getBuilding();
+            if (!buildingName2.equals("N/A")) {
+                LatLng buildingLocation = new LatLng(endingNode.getPoint().getLatitude(), endingNode.getPoint().getLongitude());
+                mMap.addMarker(new MarkerOptions().position(buildingLocation).title(buildingName2));
             }
 
        }
@@ -381,12 +379,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Node endNode = nextEndEntrance.getNode();
 
                 Path newPath = findPath(startNode.getId(), endNode.getId());
-                possiblePaths.add(newPath);
+                if (newPath.getDistance() != 0.0) {
+                    possiblePaths.add(newPath);
+                }
 
             }
         }
 
-
+       // System.out.println("Possible Paths: " + possiblePaths.size());
         double maximumDistance = 1000000;
 
 
@@ -397,8 +397,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (nextPossiblePath.getDistance() < maximumDistance) {
                 finalPath = nextPossiblePath;
                 maximumDistance = nextPossiblePath.getDistance();
+         //       System.out.println("New Shortest Path: " + maximumDistance);
             }
         }
+
+      //  System.out.println("Shortest Path: " + maximumDistance);
 
 
 
@@ -431,6 +434,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ArrayList<Edge> neighbors = currentNode.getEdges();
         ArrayList<String> visited = new ArrayList<>();
         while(neighbors.size() != 0) {
+
+
+        //    System.out.println("Total Neighbors: " + neighbors.size());
+            if (neighbors.size() > graph.getSize()) {
+                break;
+            }
             Iterator edgeIterator = neighbors.iterator();
             Edge shortestEdge = null;
 
@@ -440,9 +449,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 double length = nextEdge.getLength();
                 Node currentNeighbor = nextEdge.getStartingNode();
                 if (currentNeighbor.getScore() != 1000000) {
-                    System.out.println("TEST " + length);
                     length = length + currentNeighbor.getScore();
-                    System.out.println("TEST2 " + length);
                 }
                 if (length < minDistance) {
                     minDistance = length;
@@ -453,17 +460,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 System.out.println("ERROR NO SHORTEST EDGE");
                 return null;
             }
-            neighbors.remove(shortestEdge);
+            for (int i = 0; i < neighbors.size(); i++) {
+                if (shortestEdge.getStartingNode().getId().equals(neighbors.get(i).getStartingNode().getId())) {
+                    if (shortestEdge.getEndingNode().getId().equals(neighbors.get(i).getEndingNode().getId())) {
+                        neighbors.remove(i);
+                    }
+
+                }
+            }
+          //  neighbors.remove(shortestEdge);
             currentNode = graph.getNode(shortestEdge.getStartingNode().getId());
             Node closestNode = graph.getNode(shortestEdge.getEndingNode().getId());
 
+
+            if (currentNode == null) {
+                System.out.println("Null Edge in Path Finding");
+                continue;
+            }
+            if (closestNode == null) {
+                System.out.println("Null Edge in Path Finding");
+                continue;
+            }
+
             ArrayList<Edge> newEdges = closestNode.getEdges();
-            Iterator newNeighborIterator = newEdges.iterator();
-            while (newNeighborIterator.hasNext()) {
-                Edge newNextEdge = (Edge)newNeighborIterator.next();
+            for (int i = 0; i < newEdges.size(); i++) {
+                Edge newNextEdge = newEdges.get(i);
                 Node newNextNode = graph.getNode(newNextEdge.getEndingNode().getId());
+
                 if (!visited.contains(newNextNode.getId())) {
-                    neighbors.add(newNextEdge);
+                    if (!newNextNode.getIsStairs()) {
+                        if (!newNextEdge.getStartingNode().getIsStairs()) {
+                            neighbors.add(newNextEdge);
+                        }
+                    }
                 }
 
             }
@@ -478,24 +507,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // If the new path to the closest node is a shorter path than
             // the existing path to that node then update the node
             if (newPath.getDistance() < closestNode.getScore() ) {
-            //    drawPath(newPath);
-                System.out.println("Seting score of node: " + closestNode.getId() + " to: " + newPath.getDistance());
+
                 closestNode.setScore(newPath.getDistance());
                 closestNode.setPath(newPath);
             }
+       //     System.out.println("Visited: " + currentNode.getId());
             if (closestNode.getId().equals(endId)) {
 
                 return closestNode.getPath();
             }
 
             visited.add(currentNode.getId());
+        //    System.out.println("Total Visited: " + visited.size());
 
         }
 
         // Only called if no path is found, can occur if the end node is unreachable
         // or if the start node is the end node
         // or if the code fails to find a path
-      //  System.out.println("PATH FINDER FAILED");
+        System.out.println("PATH FINDER FAILED");
         Path returnPath = new Path(currentNode);
         return returnPath;
     }
@@ -504,21 +534,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void drawPath(Path path, int red, int green, int blue, int width) {
 
-        Iterator nodeIterator = path.getPath().iterator();
-        if (!nodeIterator.hasNext()) {
+
+        ArrayList<Node> userPath = path.getPath();
+
+        if (userPath.size() == 0) {
             // Path is empty...
             // This should never happen
+            System.out.println("Path was empty!");
             return;
         }
 
         // The very first node will be the start point
-        Node startNode = (Node)nodeIterator.next();
+        Node startNode = userPath.get(0);
+        Node endNode = null;
+      //  System.out.println("HERE 2: " + userPath.size());
+        for (int i = 1; i < userPath.size(); i++) {
+       // while(nodeIterator.hasNext()) {
 
-        while(nodeIterator.hasNext()) {
+        //    System.out.println("Loop itr: " + i);
 
-
-
-            Node endNode = (Node)nodeIterator.next();
+            endNode = userPath.get(i);
 
             float startLongitude = startNode.getPoint().getLongitude();
             float startLatitude = startNode.getPoint().getLatitude();
@@ -529,6 +564,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             float endLatitude = endNode.getPoint().getLatitude();
             LatLng endCoord = new LatLng(endLatitude, endLongitude);
 
+            System.out.println("Drawing path edge");
             mMap.addPolyline(new PolylineOptions()
                     .add(startCoord, endCoord)
                     .width(width)
@@ -538,67 +574,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // This allows us to draw a continuous line
             startNode = endNode;
         }
+      //  System.out.println("Finished drawing path");
     }
-
-
-    private void findOverlaps(Boolean fix) {
-
-        Iterator nodeIterator = nodeMap.getMap().entrySet().iterator();
-        while(nodeIterator.hasNext()) {
-
-            Map.Entry mapElement = (Map.Entry) nodeIterator.next();
-            Node currentNode = (Node) mapElement.getValue();
-
-
-
-            Iterator nodeIteratorInner = nodeMap.getMap().entrySet().iterator();
-            while(nodeIteratorInner.hasNext()) {
-
-                Map.Entry mapElementInner = (Map.Entry) nodeIteratorInner.next();
-                Node loopNode = (Node) mapElementInner.getValue();
-                if (currentNode.getId().equals(loopNode.getId())) {
-                    continue;
-                }
-
-                Edge tempEdge = new Edge(currentNode, loopNode);
-                // 0.00621371 = 10 meters in miles
-                if (tempEdge.getLength() < 0.003 && !edgeMap.contains(tempEdge)) {
-                    Path tempPath = new Path(currentNode);
-                    tempPath.addNode(loopNode);
-                  //  System.out.println("Very Close (" + tempEdge.getLength() + "m) " + currentNode.getId() + " and " + loopNode.getId());
-                    if (!fix) {
-                        drawPath(tempPath, 255, 0, 0, 20);
-                    }
-                    else {
-
-                        nodeMap.removeNode(loopNode);
-
-                        Iterator neighborIterator = loopNode.getEdges().iterator();
-                        while(neighborIterator.hasNext()) {
-                            Edge tempNeighborEdge = (Edge) neighborIterator.next();
-                            edgeMap.removeEdge(tempNeighborEdge);
-
-                            Node tempEndNode = tempNeighborEdge.getEndingNode();
-                            Path oldEdgePath = new Path(tempNeighborEdge.getEndingNode());
-                            oldEdgePath.addNode(loopNode);
-                            drawPath(oldEdgePath, 255, 0, 0, 10);
-                            tempEndNode.removeEdge(tempNeighborEdge);
-                            Edge newEdge = new Edge(currentNode, tempEndNode);
-                            Edge newEdgeRev = new Edge(tempEndNode, currentNode);
-                            tempEndNode.addEdge(newEdgeRev);
-                            currentNode.addEdge(newEdge);
-                            nodeMap.removeNode(tempEndNode.getId());
-                            nodeMap.addNode(tempEndNode);
-                            edgeMap.addEdge(newEdge);
-                        }
-
-                    }
-                }
-            }
-
-        }
-
-    }
-
 
 }

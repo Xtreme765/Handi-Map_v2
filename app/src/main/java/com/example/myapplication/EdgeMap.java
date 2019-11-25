@@ -22,7 +22,7 @@ public class EdgeMap {
             edgeMap.put(startId + endId, edge);
         }
         else {
-            System.out.println("Edge already in map");
+           // System.out.println("Edge already in map");
         }
     }
 

@@ -113,7 +113,6 @@ public class Node {
         this.path = path;
     }
     public Path getPath() {
-        System.out.println("Path: " + path.toString());
         return new Path(path);
     }
     public String getBuilding() {

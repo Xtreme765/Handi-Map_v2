@@ -23,10 +23,13 @@ public class NodeMap {
         map = nodeMap.getMap();
 
     }
+    public int getSize() {
+        return map.size();
+    }
 
     public void addNode(Node node) {
         if(map.containsKey(node.getId())) {
-            System.out.println("WHAT THE FUCK");
+            System.out.println("Error: Duplicate Node in NodeMap");
         }
         map.put(node.getId(), node);
     }
