@@ -3,8 +3,8 @@
     <string name="title_settings_activity">Settings</string>
 
     <!-- Settings Strings -->
-    <string name="zoomSetting">Zoom (pinches)</string>
-    <string name="selectSetting">Building Select (taps)</string>
+    <string name="zoomSetting">Zoom (Pinch)</string>
+    <string name="selectSetting">Magnify (Double Tap)</string>
     <string name="slopesSetting">Avoid Steep Slopes</string>
     <string name="rampsSetting">Avoid Ramps</string>
     <string name="stairsSetting">Avoid Stairs</string>
