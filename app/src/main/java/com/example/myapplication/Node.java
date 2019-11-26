@@ -47,9 +47,7 @@ public class Node {
         String newEndId = edge.getEndingNode().getId();
         Iterator iter = edges.iterator();
         while(iter.hasNext()) {
-           // Map.Entry mapElem = (Map.Entry) iter.next();
             Edge tempEdge = (Edge)iter.next();
-            //Edge tempEdge = (Edge) mapElem.getValue();
             String tempStartId = tempEdge.getStartingNode().getId();
             String tempEndId = tempEdge.getEndingNode().getId();
             if ((newStartId.equals(tempStartId) && newEndId.equals(tempEndId) )
@@ -61,27 +59,6 @@ public class Node {
     }
 
 
-    public void removeEdge(Edge edge) {
-        String startId = edge.getStartingNode().getId();
-        String endId = edge.getEndingNode().getId();
-
-        Iterator iter = edges.iterator();
-        int edgeIndex = 0;
-        while(iter.hasNext()) {
-            Edge nextEdge = (Edge)iter.next();
-            String nextStartId = nextEdge.getStartingNode().getId();
-            String nextEndId = nextEdge.getEndingNode().getId();
-            if ((startId.equals(nextStartId) && endId.equals(nextEndId))
-                || (startId.equals(nextEndId) && endId.equals(nextStartId))) {
-                    System.out.println("Found edge to remove");
-                    edges.remove(edgeIndex);
-                    return;
-            }
-            edgeIndex++;
-        }
-
-
-    }
 
     public String getId() {
         return this.point.getId();
@@ -95,14 +72,18 @@ public class Node {
         return description;
     }
 
+    // Tell us if this node is marked as a staircase
     public Boolean getIsStairs(){
-       return Boolean.valueOf(isStairs);
+        return Boolean.valueOf(isStairs);
     }
 
+    // Returns all edges of the node
     public ArrayList<Edge> getEdges() {
         return new ArrayList<>(edges);
     }
 
+    // The score is used in Dijsktras and represents the distance
+    // of this particular node from the start node
     public void setScore(double score) {
         this.score = score;
     }
