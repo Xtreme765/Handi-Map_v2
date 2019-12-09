@@ -57,7 +57,6 @@ public class NavigationActivity extends AppCompatActivity implements AdapterView
         String sLocation = spinnerText;
         String eDestination = spinnerText2;
         Toast.makeText( this, "Routing " + sLocation + " to " + eDestination, Toast.LENGTH_SHORT).show();
-        //Sully, where do you want me to send the location to?
 
         // Goes back to map screen
         Intent intent = new Intent(this, MapsActivity.class);

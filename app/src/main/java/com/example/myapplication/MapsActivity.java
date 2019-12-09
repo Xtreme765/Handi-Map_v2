@@ -15,7 +15,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -65,6 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
 
     /** Called when the user taps the Settings button */
 
@@ -233,8 +233,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     continue;
                 }
 
-
-                for (int i = 0; i<connectedNodes.length; i++) {
+                for (int i = 0; i < connectedNodes.length; i++) {
 
                     Node connectedNode = nodeMap.getNode(connectedNodes[i]);
 
@@ -317,14 +316,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // Remove it to remove markers on the map
             String buildingName = startingNode.getBuilding();
             if (!buildingName.equals("N/A")) {
-                LatLng buildingLocation = new LatLng(startingNode.getPoint().getLatitude(), startingNode.getPoint().getLongitude());
-                mMap.addMarker(new MarkerOptions().position(buildingLocation).title(buildingName));
+              //  LatLng buildingLocation = new LatLng(startingNode.getPoint().getLatitude(), startingNode.getPoint().getLongitude());
+             //   mMap.addMarker(new MarkerOptions().position(buildingLocation).title(buildingName));
             }
             // We check the end node too since there is no direction in the edgeMap iterator
             String buildingName2 = endingNode.getBuilding();
             if (!buildingName2.equals("N/A")) {
-                LatLng buildingLocation = new LatLng(endingNode.getPoint().getLatitude(), endingNode.getPoint().getLongitude());
-                mMap.addMarker(new MarkerOptions().position(buildingLocation).title(buildingName2));
+             //   LatLng buildingLocation = new LatLng(endingNode.getPoint().getLatitude(), endingNode.getPoint().getLongitude());
+            //    mMap.addMarker(new MarkerOptions().position(buildingLocation).title(buildingName2));
             }
 
        }
@@ -338,6 +337,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         ArrayList<Entrance> startEntrances = buildingMap.getEntrances(startBuilding);
         ArrayList<Entrance> endEntrances = buildingMap.getEntrances(endBuilding);
+
+
 
         // Check if the entrances were found
         if(startEntrances.size() == 0) {
@@ -475,6 +476,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
 
+
             currentNode = graph.getNode(shortestEdge.getStartingNode().getId());
             Node closestNode = graph.getNode(shortestEdge.getEndingNode().getId());
 
@@ -565,7 +567,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // The very first node will be the start point
         Node startNode = userPath.get(0);
-        Node endNode;
+
+
+        LatLng buildingLocation = new LatLng(startNode.getPoint().getLatitude(), startNode.getPoint().getLongitude());
+        mMap.addMarker(new MarkerOptions().position(buildingLocation).title(startNode.getBuilding()));
+
+
+
+        Node endNode = null;
 
         // We loop through the path nodes to draw lines
         // Between them
@@ -595,6 +604,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // This allows us to draw a continuous line
             startNode = endNode;
         }
+        buildingLocation = new LatLng(endNode.getPoint().getLatitude(), endNode.getPoint().getLongitude());
+        mMap.addMarker(new MarkerOptions().position(buildingLocation).title(endNode.getBuilding()));
+
+
+
+
     }
 
 }
